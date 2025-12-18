@@ -55,3 +55,23 @@ function sebelumSubmitIbu2() {
 
 hitung();
 loadMaster();
+
+function sebelumSubmitIbu2() {
+  hitung();
+
+  document.getElementById("loadingOverlay").classList.remove("d-none");
+  return true;
+}
+
+// ===============================
+// TOAST AFTER REDIRECT
+// ===============================
+const params = new URLSearchParams(window.location.search);
+if (params.get("status") === "ok") {
+  const toastEl = document.getElementById("toastSuccess");
+  const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+  toast.show();
+
+  // bersihkan URL
+  history.replaceState({}, document.title, window.location.pathname);
+}
