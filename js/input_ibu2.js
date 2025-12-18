@@ -60,18 +60,21 @@ function sebelumSubmitIbu2() {
   hitung();
 
   document.getElementById("loadingOverlay").classList.remove("d-none");
+
+  // dengarkan iframe load (response sudah kembali)
+  const iframe = document.querySelector('iframe[name="hidden_iframe"]');
+  iframe.onload = function () {
+    document.getElementById("loadingOverlay").classList.add("d-none");
+
+    const toast = new bootstrap.Toast(
+      document.getElementById("toastSuccess"),
+      { delay: 3000 }
+    );
+    toast.show();
+
+    document.querySelector("form").reset();
+    setTanggalHariIni();
+  };
+
   return true;
-}
-
-// ===============================
-// TOAST AFTER REDIRECT
-// ===============================
-const params = new URLSearchParams(window.location.search);
-if (params.get("status") === "ok") {
-  const toastEl = document.getElementById("toastSuccess");
-  const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
-  toast.show();
-
-  // bersihkan URL
-  history.replaceState({}, document.title, window.location.pathname);
 }
