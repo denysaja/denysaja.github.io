@@ -1,0 +1,8 @@
+label { font-size: 13px; }
+input[readonly] { background: #f8f9fa; }
+input { font-size: 16px; }
+
+@media (max-width:768px) {
+  .row > div { margin-bottom: 8px; }
+  .btn { padding: 12px; font-size: 16px; }
+}

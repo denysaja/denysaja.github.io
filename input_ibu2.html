@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Input Iuran Ibu-Ibu</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/custom.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-3">
+
+<h4>🧾 Input Iuran Ibu-Ibu</h4>
+
+<div class="alert alert-info small">
+<b>Default Iuran:</b> Rp 12.000 / bulan
+</div>
+
+<form method="POST"
+ action="https://script.google.com/macros/s/AKfycbyrGqqPlELhSMSN1CM-3tGTLn0um20alb96tfM3pp8J4uET5Tykej6UmlyX4IJfo5Br5Q/exec"
+ onsubmit="return sebelumSubmitIbu2();"
+ class="card card-body">
+
+<input type="hidden" name="sheet" value="iuran_ibu2">
+<input type="hidden" name="token" value="RT06-IURAN-2025-SECURE">
+<input type="hidden" name="origin" value="https://USERNAME.github.io">
+<input type="hidden" name="alamat" value="RT 06">
+
+<div class="row mb-2">
+  <div class="col-6">
+    <label>ID Warga</label>
+    <input class="form-control" name="id_warga" id="id_warga"
+           list="list_ibu2" required>
+    <datalist id="list_ibu2"></datalist>
+  </div>
+  <div class="col-6">
+    <label>Nama</label>
+    <input class="form-control" name="nama" id="nama" readonly>
+  </div>
+</div>
+
+<div class="row mb-2">
+  <div class="col-6">
+    <label>Dasawisma</label>
+    <input class="form-control" name="dasawisma" id="dasawisma" readonly>
+  </div>
+  <div class="col-6">
+    <label>Bulan Dibayar</label>
+    <input type="month" class="form-control" name="bulan_bayar" required>
+  </div>
+</div>
+
+<div class="row mb-2">
+  <div class="col-6">
+    <label>Tanggal Bayar</label>
+    <input type="date" class="form-control" name="tgl_bayar" required>
+  </div>
+  <div class="col-6">
+    <label>Iuran</label>
+    <input name="rupiah_bayar" id="rupiah_bayar" class="form-control" value="12000">
+  </div>
+</div>
+
+<div class="row mb-2">
+  <div class="col-6">
+    <label class="fw-bold text-primary">Total</label>
+    <input name="total" id="total" class="form-control fw-bold" readonly>
+  </div>
+</div>
+
+<button class="btn btn-primary w-100">💾 Simpan</button>
+
+</form>
+</div>
+
+<script src="js/input_ibu2.js"></script>
+</body>
+</html>
