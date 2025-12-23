@@ -1,3 +1,12 @@
+const loginToken = localStorage.getItem("login_token");
+
+if (!loginToken) {
+  window.location.href = "login.html";
+}
+
+document.getElementById("login_token").value =
+  localStorage.getItem("login_token");
+
 const API_URL = "https://script.google.com/macros/s/AKfycbyrGqqPlELhSMSN1CM-3tGTLn0um20alb96tfM3pp8J4uET5Tykej6UmlyX4IJfo5Br5Q/exec";
 
 /* ===== tanggal hari ini ===== */
@@ -71,4 +80,10 @@ function sebelumSubmitIbu2(){
     loadHistoryIbu2();
   };
   return true;
+}
+
+function formatBulan(val) {
+  if (!val) return "";
+  const d = new Date(val);
+  return d.toLocaleDateString("id-ID", { month: "long", year: "numeric" });
 }
