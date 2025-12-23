@@ -1,27 +1,15 @@
 label { font-size: 13px; }
 input[readonly] { background: #f8f9fa; }
-input { font-size: 16px; }
+input, select { font-size: 16px; }
 
-@media (max-width:768px) {
-  .row > div { margin-bottom: 8px; }
-  .btn { padding: 12px; font-size: 16px; }
-}
-/* ===============================
-   LOADING OVERLAY
-================================ */
-.loading-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
+.loading-overlay{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.4);
+  display:flex; align-items:center; justify-content:center;
+  z-index:9999;
 }
 
-/* ===============================
-   TOAST
-================================ */
-.toast {
-  font-size: 14px;
+@media(max-width:768px){
+  .row>div{ margin-bottom:8px; }
+  .btn{ padding:12px; font-size:16px; }
 }
