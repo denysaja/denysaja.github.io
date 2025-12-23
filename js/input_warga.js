@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/PASTE_URL_EXEC_DISINI/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyrGqqPlELhSMSN1CM-3tGTLn0um20alb96tfM3pp8J4uET5Tykej6UmlyX4IJfo5Br5Q/exec";
 
 /* ===============================
    SET TANGGAL HARI INI
