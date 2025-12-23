@@ -1,112 +1,83 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbyrGqqPlELhSMSN1CM-3tGTLn0um20alb96tfM3pp8J4uET5Tykej6UmlyX4IJfo5Br5Q/exec";
-const CACHE_KEY = "master_warga_cache";
-const TTL = 86400000;
+const API_URL = "https://script.google.com/macros/s/PASTE_URL_EXEC_DISINI/exec";
 
+/* ===============================
+   SET TANGGAL HARI INI
+================================ */
+(function(){
+  const el = document.getElementById("tgl_bayar");
+  if (el) el.value = new Date().toISOString().split("T")[0];
+})();
+
+/* ===============================
+   AUTOCOMPLETE
+================================ */
 let master = [];
-
-function loadMaster() {
-  const c = localStorage.getItem(CACHE_KEY);
-  if (c) {
-    const o = JSON.parse(c);
-    if (Date.now() - o.time < TTL) {
-      master = o.data;
-      render(o.data);
-      return;
-    }
-  }
 
 fetch(API_URL + "?master=master_warga")
   .then(r => r.json())
   .then(data => {
     master = data;
-    render(data);
+    const dl = document.getElementById("list_warga");
+    dl.innerHTML = "";
+    data.forEach(w => {
+      const o = document.createElement("option");
+      o.value = w.id_warga;
+      o.label = w.nama;
+      dl.appendChild(o);
+    });
   })
-  .catch(err => console.error("Master warga error", err));
-
-}
-
-function render(data) {
-  const dl = document.getElementById("list_warga");
-  dl.innerHTML = "";
-  data.forEach(w => {
-    const o = document.createElement("option");
-    o.value = w.id_warga;
-    o.label = w.nama;
-    dl.appendChild(o);
-  });
-}
+  .catch(e => console.error("master error", e));
 
 document.getElementById("id_warga").addEventListener("input", e => {
   const f = master.find(x => x.id_warga == e.target.value);
   document.getElementById("nama").value = f ? f.nama : "";
 });
 
+/* ===============================
+   TOTAL
+================================ */
 function hitung() {
   let t = 0;
   document.querySelectorAll(".hitung").forEach(i => t += Number(i.value || 0));
   document.getElementById("total").value = t;
 }
-
 document.querySelectorAll(".hitung").forEach(i => i.addEventListener("input", hitung));
-
-function sebelumSubmitWarga() {
-  hitung();
-  return true;
-}
-
 hitung();
-loadMaster();
 
-function sebelumSubmitWarga() {
-  hitung();
-
-  document.getElementById("loadingOverlay").classList.remove("d-none");
-
-  // dengarkan iframe load (response sudah kembali)
-  const iframe = document.querySelector('iframe[name="hidden_iframe"]');
-  iframe.onload = function () {
-    document.getElementById("loadingOverlay").classList.add("d-none");
-
-    const toast = new bootstrap.Toast(
-      document.getElementById("toastSuccess"),
-	  loadHistoryWarga();
-      { delay: 3000 }
-    );
-    toast.show();
-
-    document.querySelector("form").reset();
-    setTanggalHariIni();
-  };
-
-  return true;
-}
-
-function loadHistoryWarga() {
+/* ===============================
+   HISTORY
+================================ */
+function loadHistory() {
   fetch(API_URL + "?history=warga")
     .then(r => r.json())
     .then(data => {
-      const tb = document.getElementById("historyWarga");
+      const tb = document.getElementById("history");
       tb.innerHTML = "";
-
-      if (!data.length) {
-        tb.innerHTML = `<tr><td colspan="3" class="text-muted">Belum ada data</td></tr>`;
-        return;
-      }
-
       data.forEach(r => {
         tb.innerHTML += `
           <tr>
             <td>${r.nama}</td>
-            <td>${formatBulan(r.bulan_dibayar)}</td>
+            <td>${new Date(r.bulan_dibayar).toLocaleDateString("id-ID",{month:"long",year:"numeric"})}</td>
             <td class="text-end">${Number(r.total).toLocaleString("id-ID")}</td>
           </tr>`;
       });
     })
-    .catch(err => console.error("History warga error", err));
+    .catch(e => console.error("history error", e));
 }
 
-function formatBulan(val) {
-  if (!val) return "";
-  const d = new Date(val);
-  return d.toLocaleDateString("id-ID", { month: "long", year: "numeric" });
+loadHistory();
+
+/* ===============================
+   SUBMIT
+================================ */
+function sebelumSubmit() {
+  hitung();
+
+  const iframe = document.querySelector("iframe");
+  iframe.onload = function () {
+    document.querySelector("form").reset();
+    hitung();
+    loadHistory();
+  };
+  return true;
 }
