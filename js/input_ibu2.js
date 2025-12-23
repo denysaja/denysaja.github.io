@@ -68,6 +68,7 @@ function sebelumSubmitIbu2() {
 
     const toast = new bootstrap.Toast(
       document.getElementById("toastSuccess"),
+	  loadHistoryIbu2();
       { delay: 3000 }
     );
     toast.show();
@@ -78,3 +79,22 @@ function sebelumSubmitIbu2() {
 
   return true;
 }
+
+function loadHistoryIbu2() {
+  fetch(API_URL + "?history=ibu2")
+    .then(r => r.json())
+    .then(data => {
+      const tb = document.getElementById("historyIbu2");
+      tb.innerHTML = "";
+      data.forEach(r => {
+        tb.innerHTML += `
+          <tr>
+            <td>${r.nama}</td>
+            <td>${r.bulan_bayar}</td>
+            <td class="text-end">${Number(r.total).toLocaleString("id-ID")}</td>
+          </tr>`;
+      });
+    });
+}
+
+loadHistoryIbu2();

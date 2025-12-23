@@ -68,6 +68,7 @@ function sebelumSubmitWarga() {
 
     const toast = new bootstrap.Toast(
       document.getElementById("toastSuccess"),
+	  loadHistoryWarga();
       { delay: 3000 }
     );
     toast.show();
@@ -79,3 +80,22 @@ function sebelumSubmitWarga() {
   return true;
 }
 
+function loadHistoryWarga() {
+  fetch(API_URL + "?history=warga")
+    .then(r => r.json())
+    .then(data => {
+      const tb = document.getElementById("historyWarga");
+      tb.innerHTML = "";
+      data.forEach(r => {
+        tb.innerHTML += `
+          <tr>
+            <td>${r.nama}</td>
+            <td>${r.bulan_dibayar}</td>
+            <td class="text-end">${Number(r.total).toLocaleString("id-ID")}</td>
+          </tr>`;
+      });
+    });
+}
+
+// panggil saat load & setelah submit
+loadHistoryWarga();

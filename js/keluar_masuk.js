@@ -49,7 +49,7 @@ function sebelumSubmitKM(){
   const iframe = document.querySelector('iframe[name="hidden_iframe"]');
   iframe.onload = function(){
     document.getElementById("loadingOverlay").classList.add("d-none");
-    new bootstrap.Toast(document.getElementById("toastSuccess"),{delay:3000}).show();
+    new bootstrap.Toast(document.getElementById("toastSuccess"),loadHistoryKM();{delay:3000}).show();
     document.querySelector("form").reset();
     setToday();
   };
@@ -57,3 +57,23 @@ function sebelumSubmitKM(){
 }
 
 loadJenis();
+
+function loadHistoryKM() {
+  fetch(API_URL + "?history=keluar_masuk")
+    .then(r => r.json())
+    .then(data => {
+      const tb = document.getElementById("historyKM");
+      tb.innerHTML = "";
+      data.forEach(r => {
+        tb.innerHTML += `
+          <tr>
+            <td>${r.tanggal}</td>
+            <td>${r.deskripsi}</td>
+            <td class="text-end">${Number(r.pemasukan).toLocaleString("id-ID")}</td>
+            <td class="text-end">${Number(r.pengeluaran).toLocaleString("id-ID")}</td>
+          </tr>`;
+      });
+    });
+}
+
+loadHistoryKM();
