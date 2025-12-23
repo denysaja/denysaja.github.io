@@ -77,3 +77,9 @@ function loadHistoryKM() {
 }
 
 loadHistoryKM();
+
+function formatBulan(val) {
+  if (!val) return "";
+  const d = new Date(val);
+  return d.toLocaleDateString("id-ID", { month: "long", year: "numeric" });
+}

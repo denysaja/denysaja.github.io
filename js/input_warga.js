@@ -15,13 +15,14 @@ function loadMaster() {
     }
   }
 
-  fetch(API_URL + "?master=master_warga")
-    .then(r => r.json())
-    .then(d => {
-      master = d;
-      localStorage.setItem(CACHE_KEY, JSON.stringify({time: Date.now(), data: d}));
-      render(d);
-    });
+fetch(API_URL + "?master=master_warga")
+  .then(r => r.json())
+  .then(data => {
+    master = data;
+    render(data);
+  })
+  .catch(err => console.error("Master warga error", err));
+
 }
 
 function render(data) {
@@ -86,16 +87,26 @@ function loadHistoryWarga() {
     .then(data => {
       const tb = document.getElementById("historyWarga");
       tb.innerHTML = "";
+
+      if (!data.length) {
+        tb.innerHTML = `<tr><td colspan="3" class="text-muted">Belum ada data</td></tr>`;
+        return;
+      }
+
       data.forEach(r => {
         tb.innerHTML += `
           <tr>
             <td>${r.nama}</td>
-            <td>${r.bulan_dibayar}</td>
+            <td>${formatBulan(r.bulan_dibayar)}</td>
             <td class="text-end">${Number(r.total).toLocaleString("id-ID")}</td>
           </tr>`;
       });
-    });
+    })
+    .catch(err => console.error("History warga error", err));
 }
 
-// panggil saat load & setelah submit
-loadHistoryWarga();
+function formatBulan(val) {
+  if (!val) return "";
+  const d = new Date(val);
+  return d.toLocaleDateString("id-ID", { month: "long", year: "numeric" });
+}
