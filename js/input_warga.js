@@ -63,12 +63,34 @@ function sebelumSubmitWarga(){
   hitung();
   document.getElementById("loadingOverlay").classList.remove("d-none");
   const iframe=document.querySelector("iframe");
-  iframe.onload=()=>{
-    document.getElementById("loadingOverlay").classList.add("d-none");
-    new bootstrap.Toast(document.getElementById("toastSuccess")).show();
+iframe.onload = function () {
+  const res = iframe.contentDocument.body.innerText.trim();
+
+  document.getElementById("loadingOverlay").classList.add("d-none");
+
+  if (res === "DUPLICATE") {
+    new bootstrap.Toast(
+      document.getElementById("toastDuplicate"),
+      { delay: 4000 }
+    ).show();
+    return;
+  }
+
+  if (res === "OK") {
+    new bootstrap.Toast(
+      document.getElementById("toastSuccess"),
+      { delay: 3000 }
+    ).show();
+
     document.querySelector("form").reset();
-    hitung(); loadHistory();
-  };
+    hitung();
+    loadHistory();
+    return;
+  }
+
+  console.error("Response tidak dikenal:", res);
+};
+
   return true;
 }
 
