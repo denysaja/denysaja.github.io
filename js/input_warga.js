@@ -24,12 +24,6 @@ if (status === "NOT_AUTH") {
   location.href = "login.html";
 }
 
-const loginToken = localStorage.getItem("login_token");
-
-if (!loginToken) {
-  window.location.href = "login.html";
-}
-
 document.getElementById("login_token").value =
   localStorage.getItem("login_token");
 
