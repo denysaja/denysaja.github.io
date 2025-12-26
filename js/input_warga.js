@@ -59,13 +59,12 @@ function loadHistory(){
 loadHistory();
 
 /* submit */
-function sebelumSubmitWarga(){
-  hitung();
+function sebelumSubmitWarga() {
   document.getElementById("loadingOverlay").classList.remove("d-none");
-  const iframe=document.querySelector("iframe");
-iframe.onload = function () {
 
-  const status = iframe.contentWindow.name;
+window.addEventListener("message", function (event) {
+
+  const status = event.data;
 
   document.getElementById("loadingOverlay").classList.add("d-none");
 
@@ -89,8 +88,12 @@ iframe.onload = function () {
     return;
   }
 
-  console.error("Status tidak dikenal:", status);
-};
+  if (status === "NOT_AUTH") {
+    alert("Sesi login habis. Silakan login ulang.");
+    location.href = "login.html";
+  }
+});
+
 
   return true;
 }
