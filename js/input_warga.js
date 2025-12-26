@@ -9,6 +9,38 @@ document.getElementById("login_token").value =
 
 const API_URL = "https://script.google.com/macros/s/AKfycbyrGqqPlELhSMSN1CM-3tGTLn0um20alb96tfM3pp8J4uET5Tykej6UmlyX4IJfo5Br5Q/exec";
 
+window.addEventListener("message", function (event) {
+
+  const status = event.data;
+
+  document.getElementById("loadingOverlay").classList.add("d-none");
+
+  if (status === "DUPLICATE") {
+    new bootstrap.Toast(
+      document.getElementById("toastDuplicate"),
+      { delay: 4000 }
+    ).show();
+    return;
+  }
+
+  if (status === "OK") {
+    new bootstrap.Toast(
+      document.getElementById("toastSuccess"),
+      { delay: 3000 }
+    ).show();
+
+    document.querySelector("form").reset();
+    hitung();
+    loadHistory();
+    return;
+  }
+
+  if (status === "NOT_AUTH") {
+    alert("Sesi login habis");
+    location.href = "login.html";
+  }
+});
+
 /* tanggal hari ini */
 document.getElementById("tgl_bayar").value =
   new Date().toISOString().split("T")[0];
@@ -61,40 +93,6 @@ loadHistory();
 /* submit */
 function sebelumSubmitWarga() {
   document.getElementById("loadingOverlay").classList.remove("d-none");
-
-window.addEventListener("message", function (event) {
-
-  const status = event.data;
-
-  document.getElementById("loadingOverlay").classList.add("d-none");
-
-  if (status === "DUPLICATE") {
-    new bootstrap.Toast(
-      document.getElementById("toastDuplicate"),
-      { delay: 4000 }
-    ).show();
-    return;
-  }
-
-  if (status === "OK") {
-    new bootstrap.Toast(
-      document.getElementById("toastSuccess"),
-      { delay: 3000 }
-    ).show();
-
-    document.querySelector("form").reset();
-    hitung();
-    loadHistory();
-    return;
-  }
-
-  if (status === "NOT_AUTH") {
-    alert("Sesi login habis. Silakan login ulang.");
-    location.href = "login.html";
-  }
-});
-
-
   return true;
 }
 
