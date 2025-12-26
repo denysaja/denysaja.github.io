@@ -14,13 +14,11 @@
 
 <form method="POST"
  action="https://script.google.com/macros/s/AKfycbyrGqqPlELhSMSN1CM-3tGTLn0um20alb96tfM3pp8J4uET5Tykej6UmlyX4IJfo5Br5Q/exec"
-
  class="card card-body">
 
 <input type="hidden" name="sheet" value="iuran_warga_rt06">
 <input type="hidden" name="alamat" value="RT 06">
 <input type="hidden" name="login_token" id="login_token">
-
 
 <div class="row mb-2">
   <div class="col-6">
@@ -76,7 +74,10 @@
     <div class="toast-body">✅ Input sukses</div>
   </div>
 </div>
-
+<script>
+  document.getElementById("login_token").value =
+    localStorage.getItem("login_token");
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/input_warga.js"></script>
 </body>

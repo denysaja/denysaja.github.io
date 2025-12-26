@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Login Berhasil</title>
-</head>
-<body>
-
-<h3>✅ Login berhasil</h3>
-<p>Silakan tunggu...</p>
-
 <script>
-const p = new URLSearchParams(location.search);
-const token = p.get("token");
+  const params = new URLSearchParams(location.search);
+  const token = params.get("token");
 
-if (token) {
+  if (!token) {
+    alert("Login gagal");
+    location.href = "login.html";
+  }
+
   localStorage.setItem("login_token", token);
-  window.location.href = "input_warga.html";
-} else {
-  alert("Token tidak ditemukan");
-}
+  location.href = "input_warga.html";
 </script>
-
-</body>
-</html>
