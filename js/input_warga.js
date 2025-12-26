@@ -1,3 +1,29 @@
+const url = new URL(window.location.href);
+const status = url.searchParams.get("status");
+
+if (status === "OK") {
+  new bootstrap.Toast(
+    document.getElementById("toastSuccess"),
+    { delay: 3000 }
+  ).show();
+
+  history.replaceState({}, document.title, location.pathname);
+}
+
+if (status === "DUPLICATE") {
+  new bootstrap.Toast(
+    document.getElementById("toastDuplicate"),
+    { delay: 4000 }
+  ).show();
+
+  history.replaceState({}, document.title, location.pathname);
+}
+
+if (status === "NOT_AUTH") {
+  alert("Session habis, silakan login ulang.");
+  location.href = "login.html";
+}
+
 const loginToken = localStorage.getItem("login_token");
 
 if (!loginToken) {
