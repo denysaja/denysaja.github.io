@@ -73,11 +73,12 @@ function sebelumSubmitIbu2(){
 
   const iframe = document.querySelector("iframe");
 iframe.onload = function () {
-  const res = iframe.contentDocument.body.innerText.trim();
+
+  const status = iframe.contentWindow.name;
 
   document.getElementById("loadingOverlay").classList.add("d-none");
 
-  if (res === "DUPLICATE") {
+  if (status === "DUPLICATE") {
     new bootstrap.Toast(
       document.getElementById("toastDuplicate"),
       { delay: 4000 }
@@ -85,7 +86,7 @@ iframe.onload = function () {
     return;
   }
 
-  if (res === "OK") {
+  if (status === "OK") {
     new bootstrap.Toast(
       document.getElementById("toastSuccess"),
       { delay: 3000 }
@@ -97,8 +98,9 @@ iframe.onload = function () {
     return;
   }
 
-  console.error("Response tidak dikenal:", res);
+  console.error("Status tidak dikenal:", status);
 };
+
 
   return true;
 }
